@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const links = [
-  { label: "Home", to: "/main" },
+  { label: "Menu", to: "/main" },
   { label: "Feature 4", to: "/feature4" },
   { label: "Calendar", to: "/calendar" },
 ];
@@ -26,4 +26,4 @@ const MenuBar = () => {
   );
 };
 
-export default MenuBar; 
+export default MenuBar;

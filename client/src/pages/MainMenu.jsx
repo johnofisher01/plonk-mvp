@@ -10,20 +10,29 @@ const MainMenu = () => {
   return (
     <div className="min-h-screen w-full grid grid-cols-2 grid-rows-2">
       <div className="flex items-center justify-center h-full">
-        <button className={buttonClass}>Feature 1</button>
+        <button className={buttonClass} onClick={() => {}}>
+          Feature 1
+        </button>
       </div>
       <div className="flex items-center justify-center h-full">
-        <button className={buttonClass}>Feature 2</button>
+        <button className={buttonClass} onClick={() => {}}>
+          Feature 2
+        </button>
       </div>
       <div className="flex items-center justify-center h-full">
-        <button className={buttonClass}>Feature 3</button>
+        <button
+          className={buttonClass}
+          onClick={() => navigate("/calendar")}
+        >
+          Cal View
+        </button>
       </div>
       <div className="flex items-center justify-center h-full">
         <button
           className={buttonClass}
           onClick={() => navigate("/feature4")}
         >
-          Feature 4
+          Cal Bash
         </button>
       </div>
     </div>
