@@ -6,6 +6,8 @@ import Intro from "./pages/Intro";
 import Calendar from "./pages/Calendar";
 import AI from "./pages/AI";
 
+import MainMenu from "./pages/MainMenu";
+
 function App() {
   return (
     <Router>
@@ -16,6 +18,7 @@ function App() {
           <Link to="/dashboard" className="hover:underline">Dashboard</Link>
           <Link to="/calendar" className="hover:underline">Calendar</Link>
           <Link to="/ai" className="hover:underline">AI</Link>
+          <Link to="/main" className="hover:underline">Main Menu</Link> {/* New menu link */}
         </nav>
         <main className="container mx-auto px-4 py-6">
           <Routes>
@@ -23,6 +26,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/ai" element={<AI />} />
+            <Route path="/main" element={<MainMenu />} /> {/* New route */}
           </Routes>
         </main>
       </div>

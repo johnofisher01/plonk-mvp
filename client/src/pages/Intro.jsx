@@ -72,7 +72,7 @@ const Intro = () => {
       </p>
       <button
         className="px-8 py-4 bg-purple-700 text-white text-2xl font-semibold rounded-lg shadow-lg hover:bg-purple-800 transition"
-        onClick={() => navigate("/calendar")}
+        onClick={() => navigate("/main")}
         style={{letterSpacing: "0.1em"}}
       >
         ENTER PLONK
