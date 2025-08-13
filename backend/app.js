@@ -5,6 +5,7 @@ const cors      = require("cors");
 const { Op }    = require("sequelize");         
 const sequelize = require("./config/db");
 const Article   = require("./models/articleModel");
+const verifyToken = require("./middleware/auth"); 
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -26,7 +27,7 @@ app.get("/", (_req, res) => {
   res.send("Welcome to the Articles Dashboard API!");
 });
 
-
+// ─────────────── PUBLIC ROUTES ────────────────
 app.get("/articles", async (req, res) => {
   try {
     const {
@@ -37,7 +38,6 @@ app.get("/articles", async (req, res) => {
       sortDirection
     } = req.query;
 
-    /* ---- ORDER clause -------------------------------------------------- */
     const validSortFields     = ["views", "shares"];
     const validSortDirections = ["asc", "desc"];
 
@@ -79,7 +79,6 @@ app.get("/articles", async (req, res) => {
   }
 });
 
-
 app.get("/articles/highlights", async (_req, res) => {
   try {
     const mostViewed = await Article.findOne({ order: [["views", "DESC"]] });
@@ -94,8 +93,17 @@ app.get("/articles/highlights", async (_req, res) => {
   }
 });
 
+// ─────────────── PROTECTED ROUTE ────────────────
+app.get("/protected", verifyToken, (req, res) => {
+  // Add more logic here as needed!
+  res.json({ success: true, message: "Authenticated via Cognito JWT", user: req.user });
+});
 
-app.post("/articles/:id/summarize", async (req, res) => {
+// You can protect any route like this:
+// app.post("/articles", verifyToken, async (req, res) => { ... });
+
+// Demo: protected summarize route (optional)
+app.post("/articles/:id/summarize", verifyToken, async (req, res) => {
   try {
     const article = await Article.findByPk(req.params.id);
     if (!article) {
