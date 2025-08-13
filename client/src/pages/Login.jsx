@@ -1,27 +1,22 @@
 import React, { useState } from "react";
 import {
-  CognitoUserPool,
   CognitoUser,
   AuthenticationDetails,
 } from "amazon-cognito-identity-js";
-import { awsConfig } from "../awsConfig";
 import { useNavigate } from "react-router-dom";
-
-const poolData = {
-  UserPoolId: awsConfig.userPoolId,
-  ClientId: awsConfig.clientId,
-};
-
-const userPool = new CognitoUserPool(poolData);
+import { useAuth } from "../context/AuthContext";
+import { awsConfig } from "../awsConfig";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
-  const handleLogin = e => {
+  const navigate = useNavigate();
+  const { login, userPool } = useAuth();
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
@@ -37,12 +32,12 @@ const Login = () => {
     });
 
     cognitoUser.authenticateUser(authDetails, {
-      onSuccess: session => {
-        localStorage.setItem("cognitoToken", session.getIdToken().getJwtToken());
+      onSuccess: (session) => {
+        login(cognitoUser, session);
         setLoading(false);
         navigate("/main");
       },
-      onFailure: err => {
+      onFailure: (err) => {
         setError(err.message || "Login failed");
         setLoading(false);
       },
@@ -52,7 +47,7 @@ const Login = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
       <form
-        onSubmit={handleLogin}
+        onSubmit={handleSubmit}
         className="bg-white rounded-xl shadow p-6 w-full max-w-md"
       >
         <h2 className="text-xl font-bold mb-4">Login</h2>
