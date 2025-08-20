@@ -1,5 +1,5 @@
 export const awsConfig = {
-  userPoolId: "YOUR_USER_POOL_ID",
-  clientId: "YOUR_CLIENT_ID",
-  region: "YOUR_REGION",
+  userPoolId: "eu-west-2_CMO55kn1O",
+  clientId: "k0jrokhku5kp058d3lpcb7tj7",
+  region: "eu-west-2",
 };
