@@ -6,7 +6,6 @@ const poolData = {
   UserPoolId: awsConfig.userPoolId,
   ClientId: awsConfig.clientId
 };
-
 const userPool = new CognitoUserPool(poolData);
 
 const AuthContext = createContext();

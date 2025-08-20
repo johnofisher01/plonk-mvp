@@ -36,21 +36,17 @@ const Feature4Box = ({ addEntry }) => {
   const [desc, setDesc] = useState("");
   const navigate = useNavigate();
 
-  // Step 0: description, Step 1: date, Step 2: time, Step 3: importance, Step 4: Plonk
-
   const handleInputChange = (e) => {
     const val = e.target.value;
     setRawInput(val);
 
     if (step === 0) {
       setDesc(val);
-      // When user types a number, jump to date step
       if (/\d/.test(val)) {
         setStep(1);
         setRawInput("");
       }
     } else if (step === 1) {
-      // As soon as 6 digits entered, parse date
       if (/^\d{6}$/.test(val)) {
         const d = parseDate(val);
         if (d) {
@@ -60,13 +56,12 @@ const Feature4Box = ({ addEntry }) => {
         }
       }
     } else if (step === 2) {
-      // As soon as 4 digits entered, parse time
       if (/^\d{4}$/.test(val)) {
         const t = parseTime(val);
         if (t) {
           setTimeObj(t);
           setStep(3);
-          setRawInput(""); // Not used further
+          setRawInput("");
         }
       }
     }
@@ -88,7 +83,6 @@ const Feature4Box = ({ addEntry }) => {
   };
 
   const handlePlonk = () => {
-    // Save entry to app state
     addEntry({
       desc,
       date: dateObj.display,
@@ -98,7 +92,6 @@ const Feature4Box = ({ addEntry }) => {
       time: timeObj.display,
       importance,
     });
-    // Go to calendar
     navigate("/calendar");
   };
 
@@ -106,8 +99,6 @@ const Feature4Box = ({ addEntry }) => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
       <div className="bg-white rounded-xl shadow p-6 w-full max-w-md">
         <h2 className="text-xl font-bold mb-4">Data Entry</h2>
-
-        {/* Step 0: Description */}
         {step === 0 && (
           <>
             <div className="mb-2 text-gray-500">Type what is happening...</div>
@@ -122,8 +113,6 @@ const Feature4Box = ({ addEntry }) => {
             <div className="text-xs text-gray-400">Type a number to begin entering date (DDMMYY)</div>
           </>
         )}
-
-        {/* Step 1: Date */}
         {step === 1 && (
           <>
             <div className="mb-2 text-gray-500">Enter date (DDMMYY)</div>
@@ -142,8 +131,6 @@ const Feature4Box = ({ addEntry }) => {
             )}
           </>
         )}
-
-        {/* Step 2: Time */}
         {step === 2 && (
           <>
             <div className="mb-2 text-gray-500">Enter time (HHMM)</div>
@@ -162,8 +149,6 @@ const Feature4Box = ({ addEntry }) => {
             )}
           </>
         )}
-
-        {/* Step 3: Importance */}
         {step === 3 && (
           <>
             <div className="mb-4 font-semibold text-center">How important?</div>
@@ -187,11 +172,19 @@ const Feature4Box = ({ addEntry }) => {
             </div>
           </>
         )}
-
-        {/* Step 4: Plonk Confirmation */}
         {showPlonk && (
           <div className="flex flex-col items-center justify-center">
             <div className="mb-2 text-lg font-semibold">Plonk?</div>
+            <div className="mb-4 text-sm text-gray-700">
+              <div><strong>Description:</strong> {desc}</div>
+              <div><strong>Date:</strong> {dateObj?.display}</div>
+              <div><strong>Time:</strong> {timeObj?.display}</div>
+              <div>
+                <strong>Importance:</strong> {
+                  importanceChoices.find((c) => c.color === importance)?.label
+                }
+              </div>
+            </div>
             <button
               className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold shadow hover:bg-blue-700 transition"
               onClick={handlePlonk}
