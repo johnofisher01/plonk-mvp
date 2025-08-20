@@ -5,14 +5,13 @@ import {
 } from "amazon-cognito-identity-js";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { awsConfig } from "../awsConfig";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState(""); 
+  const [name, setName] = useState("");
   const [showNewPasswordFields, setShowNewPasswordFields] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -132,7 +131,7 @@ const Login = () => {
           <input
             className="w-full border rounded px-4 py-2 mb-2"
             type="text"
-            placeholder="Username"
+            placeholder="Email address"
             value={username}
             onChange={e => setUsername(e.target.value)}
             autoComplete="username"
@@ -181,6 +180,11 @@ const Login = () => {
           >
             {loading ? "Logging in..." : "Login"}
           </button>
+          <div className="mt-4 text-center">
+            <a href="/signup" className="text-blue-600 hover:underline font-semibold">
+              Sign Up to Plonk
+            </a>
+          </div>
         </form>
       ) : (
         <form
@@ -191,7 +195,7 @@ const Login = () => {
           <input
             className="w-full border rounded px-4 py-2 mb-2"
             type="text"
-            placeholder="Username"
+            placeholder="Email address"
             value={username}
             disabled
           />
@@ -212,6 +216,9 @@ const Login = () => {
             onChange={e => setName(e.target.value)}
             required
           />
+          <small className="text-gray-500 mb-2 block">
+            Please enter your real name as you would like it to appear in the system.
+          </small>
           <div className="relative">
             <input
               className="w-full border rounded px-4 py-2 mb-2"

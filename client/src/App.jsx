@@ -1,49 +1,34 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
-import MenuBar from "./components/MenuBar";
-import MainMenu from "./pages/MainMenu";
-import Feature4Box from "./pages/Feature4Box";
-import Calendar from "./pages/Calendar";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import Login from "./pages/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Signup from "./pages/Signup";
+import ConfirmAccount from "./pages/ConfirmAccount";
+import Main from "./pages/Main";
+
+function PrivateRoute({ children }) {
+  const { cognitoUser } = useAuth();
+  return cognitoUser ? children : <Navigate to="/login" />;
+}
 
 function App() {
-  // Store entries in state
-  const [entries, setEntries] = useState([]);
-  const addEntry = (entry) => setEntries([...entries, entry]);
-
   return (
     <AuthProvider>
       <Router>
-        <MenuBar />
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/verify" element={<ConfirmAccount />} />
           <Route
             path="/main"
             element={
-              <ProtectedRoute>
-                <MainMenu />
-              </ProtectedRoute>
+              <PrivateRoute>
+                <Main />
+              </PrivateRoute>
             }
           />
-          <Route
-            path="/calendar"
-            element={
-              <ProtectedRoute>
-                <Calendar entries={entries} />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/feature4"
-            element={
-              <ProtectedRoute>
-                <Feature4Box addEntry={addEntry} />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </Router>
     </AuthProvider>
