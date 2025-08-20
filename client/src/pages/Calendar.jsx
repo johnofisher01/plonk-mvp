@@ -11,19 +11,19 @@ function getMonthName(month) {
   ][month - 1];
 }
 
+const colorMap = {
+  red: "bg-red-200 border-red-400",
+  amber: "bg-yellow-100 border-yellow-400",
+  green: "bg-green-100 border-green-400"
+};
+
 const Calendar = ({ entries }) => {
-  // Default to last entry's month/year, else current
   const latest = entries.length ? entries[entries.length - 1] : null;
   const [month, setMonth] = useState(latest ? latest.month : new Date().getMonth() + 1);
   const [year, setYear] = useState(latest ? latest.year : new Date().getFullYear());
 
   const daysInMonth = getDaysInMonth(month, year);
-
-  // Get entries for current month/year
-  const monthEntries = entries.filter(
-    (e) => e.month === month && e.year === year
-  );
-
+  const monthEntries = entries.filter((e) => e.month === month && e.year === year);
   const getEntryForDay = (d) => monthEntries.find(e => e.day === d);
 
   const handlePrevMonth = () => {
@@ -49,37 +49,37 @@ const Calendar = ({ entries }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-2">
-      <div className="bg-white rounded-xl shadow p-4 w-full max-w-3xl">
-        <div className="flex justify-between items-center mb-4">
-          <button onClick={handlePrevMonth} className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">&lt;</button>
-          <div className="text-xl font-bold">{getMonthName(month)} {year}</div>
-          <button onClick={handleNextMonth} className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">&gt;</button>
+    <div className="flex flex-col items-center justify-center min-h-[80vh] px-2">
+      <div className="bg-white/95 rounded-3xl shadow-2xl p-5 w-full max-w-4xl border-4 border-indigo-200">
+        <div className="flex justify-between items-center mb-6">
+          <button
+            onClick={handlePrevMonth}
+            className="px-4 py-2 bg-gradient-to-r from-teal-400 to-blue-400 text-white font-bold rounded-xl shadow hover:scale-105 transition"
+          >
+            &lt;
+          </button>
+          <div className="text-2xl font-bold text-indigo-700">{getMonthName(month)} {year}</div>
+          <button
+            onClick={handleNextMonth}
+            className="px-4 py-2 bg-gradient-to-r from-orange-400 to-yellow-300 text-white font-bold rounded-xl shadow hover:scale-105 transition"
+          >
+            &gt;
+          </button>
         </div>
-        <div className="grid grid-cols-7 gap-2">
+        <div className="grid grid-cols-7 gap-4">
           {[...Array(daysInMonth)].map((_, i) => {
             const day = i + 1;
             const entry = getEntryForDay(day);
+            let entryColor = entry ? colorMap[entry.importance] : "bg-white border-gray-200";
             return (
               <div
                 key={day}
-                className="border rounded-lg h-20 flex flex-col justify-center items-center relative"
-                style={{
-                  background:
-                    entry?.importance === "red"
-                      ? "#fee2e2"
-                      : entry?.importance === "amber"
-                      ? "#fef9c3"
-                      : entry?.importance === "green"
-                      ? "#d1fae5"
-                      : "#fff",
-                  borderColor: entry ? "#374151" : "#e5e7eb"
-                }}
+                className={`border-2 rounded-2xl h-24 flex flex-col justify-center items-center relative shadow transition ${entryColor}`}
               >
-                <div className="text-xs font-bold mb-1">{day}</div>
+                <div className="text-xs font-bold mb-1 text-gray-700">{day}</div>
                 {entry && (
-                  <div className="text-xs font-semibold truncate w-full px-2">
-                    <span className="block">{entry.desc}</span>
+                  <div className="text-xs font-semibold w-full px-2 text-gray-700">
+                    <span className="block truncate">{entry.desc}</span>
                     <span className="block">{entry.time}</span>
                   </div>
                 )}
