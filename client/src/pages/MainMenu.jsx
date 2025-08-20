@@ -32,12 +32,12 @@ const MainMenu = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh]">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 w-full max-w-2xl">
-        {menuItems.map((item, idx) => (
+    <div className="min-h-[80vh] flex items-center justify-center w-full">
+      <div className="grid w-full max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4 py-8">
+        {menuItems.map((item) => (
           <button
             key={item.label}
-            className={`${item.color} text-white font-bold shadow-2xl rounded-3xl w-full sm:w-56 h-40 flex flex-col items-center justify-center text-xl sm:text-2xl transition-transform transform hover:scale-105 border-4 border-white`}
+            className={`${item.color} text-white font-bold shadow-2xl rounded-3xl w-full h-36 sm:h-48 flex flex-col items-center justify-center text-xl sm:text-2xl transition-transform transform hover:scale-105 border-4 border-white`}
             onClick={() => item.onClick(navigate)}
             style={{ boxShadow: "0 6px 32px 0 rgba(30, 64, 175, 0.18)" }}
           >

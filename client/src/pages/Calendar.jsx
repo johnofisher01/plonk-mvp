@@ -49,9 +49,9 @@ const Calendar = ({ entries }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] px-2">
-      <div className="bg-white/95 rounded-3xl shadow-2xl p-5 w-full max-w-4xl border-4 border-indigo-200">
-        <div className="flex justify-between items-center mb-6">
+    <div className="flex flex-col items-center justify-center min-h-[80vh] w-full px-2">
+      <div className="bg-white/95 rounded-3xl shadow-2xl p-5 w-full max-w-7xl border-4 border-indigo-200">
+        <div className="flex justify-between items-center mb-6 px-2">
           <button
             onClick={handlePrevMonth}
             className="px-4 py-2 bg-gradient-to-r from-teal-400 to-blue-400 text-white font-bold rounded-xl shadow hover:scale-105 transition"
@@ -66,7 +66,7 @@ const Calendar = ({ entries }) => {
             &gt;
           </button>
         </div>
-        <div className="grid grid-cols-7 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-4 w-full">
           {[...Array(daysInMonth)].map((_, i) => {
             const day = i + 1;
             const entry = getEntryForDay(day);
@@ -74,7 +74,7 @@ const Calendar = ({ entries }) => {
             return (
               <div
                 key={day}
-                className={`border-2 rounded-2xl h-24 flex flex-col justify-center items-center relative shadow transition ${entryColor}`}
+                className={`border-2 rounded-2xl h-24 sm:h-28 md:h-32 flex flex-col justify-center items-center relative shadow transition ${entryColor} w-full`}
               >
                 <div className="text-xs font-bold mb-1 text-gray-700">{day}</div>
                 {entry && (

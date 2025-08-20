@@ -96,8 +96,8 @@ const Feature4Box = ({ addEntry }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] pt-10 px-2">
-      <div className="bg-white/95 rounded-3xl shadow-2xl p-8 w-full max-w-xl border-4 border-teal-200">
+    <div className="flex flex-col items-center justify-center min-h-[80vh] w-full pt-10 px-2">
+      <div className="bg-white/95 rounded-3xl shadow-2xl p-8 w-full max-w-3xl border-4 border-teal-200">
         <h2 className="text-2xl font-bold mb-4 text-teal-700">Add Calendar Entry</h2>
         {step === 0 && (
           <>
@@ -152,7 +152,7 @@ const Feature4Box = ({ addEntry }) => {
         {step === 3 && (
           <>
             <div className="mb-4 font-semibold text-center text-indigo-600">How important?</div>
-            <div className="flex justify-around mb-2">
+            <div className="flex flex-wrap justify-around mb-2 gap-4">
               {importanceChoices.map((choice) => (
                 <button
                   key={choice.value}
