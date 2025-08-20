@@ -12,17 +12,16 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [name, setName] = useState(""); 
   const [showNewPasswordFields, setShowNewPasswordFields] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const { login, userPool } = useAuth();
 
-  // Toggle show/hide for all password fields
-  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const togglePasswordVisibility = () => setShowPassword(prev => !prev);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,8 +51,8 @@ const Login = () => {
       newPasswordRequired: () => {
         setShowNewPasswordFields(true);
         setLoading(false);
-        setError("Your account requires a password change. Please set a new password.");
-      },
+        setError("Your account requires a password change. Please set a new password and enter your full name.");
+      }
     });
   };
 
@@ -61,13 +60,12 @@ const Login = () => {
     e.preventDefault();
     setError("");
 
-    // Check new/confirm match before sending to Cognito
-    if (newPassword !== confirmPassword) {
-      setError("New password and confirmation do not match.");
+    if (!newPassword || !confirmPassword || !name) {
+      setError("Please fill out all fields.");
       return;
     }
-    if (!newPassword || !confirmPassword) {
-      setError("Please enter and confirm your new password.");
+    if (newPassword !== confirmPassword) {
+      setError("New password and confirmation do not match.");
       return;
     }
     setLoading(true);
@@ -76,6 +74,8 @@ const Login = () => {
       Username: username,
       Pool: userPool,
     });
+
+    const attributes = { name };
 
     const authDetails = new AuthenticationDetails({
       Username: username,
@@ -95,7 +95,7 @@ const Login = () => {
       newPasswordRequired: (userAttributes, requiredAttributes) => {
         cognitoUser.completeNewPasswordChallenge(
           newPassword,
-          {},
+          attributes,
           {
             onSuccess: (session) => {
               login(cognitoUser, session);
@@ -112,11 +112,11 @@ const Login = () => {
     });
   };
 
-  // UX: Allow user to go "Back to Login" from new password flow
   const handleBackToLogin = () => {
     setShowNewPasswordFields(false);
     setNewPassword("");
     setConfirmPassword("");
+    setName("");
     setError("");
     setLoading(false);
   };
@@ -187,7 +187,7 @@ const Login = () => {
           onSubmit={handleNewPasswordSubmit}
           className="bg-white rounded-xl shadow p-6 w-full max-w-md"
         >
-          <h2 className="text-xl font-bold mb-4">Change Password</h2>
+          <h2 className="text-xl font-bold mb-4">Change Password & Set Name</h2>
           <input
             className="w-full border rounded px-4 py-2 mb-2"
             type="text"
@@ -204,6 +204,14 @@ const Login = () => {
               disabled
             />
           </div>
+          <input
+            className="w-full border rounded px-4 py-2 mb-2"
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            required
+          />
           <div className="relative">
             <input
               className="w-full border rounded px-4 py-2 mb-2"
